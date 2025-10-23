@@ -7,7 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class LibraryapiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LibraryapiApplication.class, args);
+		var context = SpringApplication.run(LibraryapiApplication.class, args);
+
 	}
 
 }

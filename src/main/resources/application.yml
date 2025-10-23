@@ -1,10 +1,27 @@
 spring:
-   application:
-       name: libraryapi
-   datasource:
-      postgres:
-        url: jdbc:postgresql://localhost:5432/librarydb
-        username: postgres
-        password: postgres
-        driver-class-name: org.postgresql.Driver
+  application:
+    name: libraryapi
 
+  datasource:
+    url: jdbc:postgresql://localhost:5432/library
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+    # Controls how Hibernate handles database schema (DDL)
+    # Options:
+    #   none     -> Do nothing (you must manage the schema manually)
+    #   validate -> Validate schema, throw error if it doesn’t match entities
+    #   update   -> Automatically update the schema to match entities
+    #   create   -> Drop and recreate tables on each startup
+    #   create-drop -> Drop schema at shutdown (useful for tests)
+      ddl-auto: update
+
+    # Enables logging of SQL statements executed by Hibernate
+      show-sql: true
+
+      # properties:
+      #  hibernate:
+        # Makes the SQL output formatted and readable in the console
+    #  format_sql: true
