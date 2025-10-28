@@ -20,7 +20,8 @@ spring:
 
     # Enables logging of SQL statements executed by Hibernate
       show-sql: true
-
+    properties:
+      hibernate.format_sql: true
       # properties:
       #  hibernate:
         # Makes the SQL output formatted and readable in the console

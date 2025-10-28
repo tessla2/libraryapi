@@ -12,7 +12,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "books")
 @Table(name = "author", schema = "public")
 
 public class Author {
@@ -28,8 +28,8 @@ public class Author {
     @Column(name = "nationality", length = 50, nullable = false)
     private String nationality;
 
-   // @OneToMany(mappedBy = "author")
-    @Transient // To avoid loading books in this example
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+   // @Transient // To avoid loading books in this example
     private List<Book> books;
 
 }
