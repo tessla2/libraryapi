@@ -89,7 +89,7 @@ public class AuthorRepositoryTest {
         book1.setTitle("Harry Potter and the Philosopher's Stone");
         book1.setIsbn("978-3-16-148410-0");
         book1.setPreco(BigDecimal.valueOf(10.99));
-        book1.setGenre(BookGenre.FANTASIA);
+        book1.setGenre(BookGenre.FANTASY);
         book1.setPublicationDate(LocalDate.of(1997, 6, 26));
         book1.setAuthor(author);
 
@@ -97,7 +97,7 @@ public class AuthorRepositoryTest {
         book2.setTitle("Harry Potter and the Chamber of Secrets");
         book2.setIsbn("978-3-16-148411-7");
         book2.setPreco(BigDecimal.valueOf(11.99));
-        book2.setGenre(BookGenre.FANTASIA);
+        book2.setGenre(BookGenre.FANTASY);
         book2.setPublicationDate(LocalDate.of(1998, 7, 2));
         book2.setAuthor(author);
 
