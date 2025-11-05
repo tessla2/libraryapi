@@ -1,47 +1,50 @@
 package io.github.tessla2.libraryapi.model;
 
-
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "book", schema = "public")
-@Data // @Getter @Setter
+@Data
 @ToString(exclude = "author")
 public class Book {
 
-
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id")
     private UUID id;
 
-    @Column(name = "isbn", length = 20, nullable = false)
+    @Column(name = "isbn", length = 20, nullable = false, unique = true)
     private String isbn;
 
     @Column(name = "title", length = 150, nullable = false)
     private String title;
 
-    @Column(name = "publication_date")
+    @Column(name = "publication_date", nullable = false)
     private LocalDate publicationDate;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "genre", length = 30)
+    @Column(name = "genre", length = 30, nullable = false)
     private BookGenre genre;
 
-    @Column(name = "preco", precision = 18, scale = 2)
-    private BigDecimal preco;
-   // private BigDecimal preco;
+    @Column(name = "price", precision = 18, scale = 2)
+    private BigDecimal price;
 
-    @ManyToOne    //(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_author")
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @Column(name = "user_id")
+    private UUID userId;
+
+    @ManyToOne
+    @JoinColumn(name = "author_id", nullable = false)
     private Author author;
-
 }

@@ -52,7 +52,7 @@ public class TransactionService {
         Book book = new Book();
         book.setTitle("Don Quixote");
         book.setIsbn("978-3-16-148410-0");
-        book.setPreco(BigDecimal.valueOf(13.99));
+        book.setPrice(BigDecimal.valueOf(13.99));
         book.setGenre(BookGenre.SCIENCE_FICTION);
         book.setPublicationDate(LocalDate.of(1980, 5, 20));
 

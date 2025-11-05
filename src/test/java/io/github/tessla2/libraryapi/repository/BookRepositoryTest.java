@@ -31,16 +31,16 @@ class BookRepositoryTest {
         Book book = new Book();
         book.setTitle("Don Quixote");
         book.setIsbn("978-3-16-148410-0");
-        book.setPreco(BigDecimal.valueOf(13.99));
-        book.setGenre(BookGenre.FICCAO_CIENTIFICA);
+        book.setPrice(BigDecimal.valueOf(13.99));
+        book.setGenre(BookGenre.SCIENCE_FICTION);
         book.setPublicationDate(LocalDate.of(1980, 5, 20));
 
 
         Author author = authorRepository
-                .findById(UUID.fromString("18d22ae9-f1da-428b-a905-7b3fdbbe3acd"))
+                .findById(UUID.fromString("038e06cf-a6ac-43f4-8a87-4578319eb874"))
                 .orElse(null);
 
-        book.setAuthor(new Author());
+        book.setAuthor(author);
 
         repository.save(book);
     }
@@ -52,13 +52,14 @@ class BookRepositoryTest {
         Book book = new Book();
         book.setTitle("Don Quixote");
         book.setIsbn("978-3-16-148410-0");
-        book.setPreco(BigDecimal.valueOf(13.99));
-        book.setGenre(BookGenre.FICCAO_CIENTIFICA);
+        book.setPrice(BigDecimal.valueOf(13.99));
+        book.setGenre(BookGenre.SCIENCE_FICTION);
         book.setPublicationDate(LocalDate.of(1980, 5, 20));
 
 
         Author author = new Author();
         author.setName("Miguel de Cervantes");
+        author.setBirthdate(LocalDate.of(1547, 9, 29));
         author.setNationality("Spanish");
 
 

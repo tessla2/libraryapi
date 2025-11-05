@@ -20,27 +20,30 @@ public interface BookRepository extends JpaRepository<Book, UUID> {
 
     List<Book> findByTitle (String title); //method to find books by title
 
-  //  List<Book>  findbyIsbn(String isbn);
+    List<Book>  findByIsbn(String isbn);
 
-   /* @Query("select b from book as b order by b.title, b.price")
-    List<Book> findAllOrderByTitleAndPrice();  */
+    boolean existsByAuthor(Author author); //method to check if books exist by author
 
-    /*@Query("""
+   @Query("select b from Book as b order by b.title, b.price")
+    List<Book> findAllOrderByTitleAndPrice();
+
+    @Query("""
     select b.genre
-    from book b
+    from Book b
     join b.author a
-            where a.nacionality = 'British'
-    order b.genre
+            where a.nationality = 'British'
+    order by b.genre
     """)
-    List<String> findBooksByAuthorNacionalityBritish();
+    List<String> findBooksAuthorNationalityBritish();
 
+    @Query("select b from Book b where b.genre =:genre order by :paramOrdnance")
+    List<Book> findByGenre(
+            @Param("genre") BookGenre bookGenre,
+            @Param("paramOrdnance") String nameProperty);
 
-    @Query("select b from book where b.genre =:genre order by :paramOrdenacao")
-    List<Book> findBooksByGenreOrderByParam(
-            @Param("genre") BookGenre bookGenre, @Param("paramOrdenacao") String paramOrdenacao);
-
-@Query("select b from book where b.genre = ?1 order by ?2")
-    List<Book> findBooksByGenreOrderByParam( BookGenre bookGenre, String paramOrdenacao);
+    // positional parameters
+    @Query("select b from Book b where b.genre = ?2 order by ?1 ")
+    List<Book> findByGenrePositionalParameters(String nameProperty, BookGenre bookGenre);
 
     @Modifying //this annotation is necessary to execute modifying queries
     @Transactional //this annotation is necessary to execute modifying queries
@@ -51,5 +54,4 @@ public interface BookRepository extends JpaRepository<Book, UUID> {
     @Transactional
     @Query(" update Book set publicationDate = ?1 ")
     void updatePublicationDate(LocalDate newDate);
-*/
 }
