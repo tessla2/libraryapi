@@ -7,14 +7,12 @@ import io.github.tessla2.libraryapi.exceptions.DuplicateRecordException;
 import io.github.tessla2.libraryapi.exceptions.OperationNotAllowed;
 import io.github.tessla2.libraryapi.model.Author;
 import io.github.tessla2.libraryapi.service.AuthorService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.swing.text.html.ObjectView;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -31,8 +29,8 @@ public class AuthorController {
 
 
     @PostMapping
-    public ResponseEntity<Object> save(@RequestBody AuthorDTO author) { //ResponseEntity is a generic type that represents the HTTP response //DTO is a data transfer object
-        try {
+    public ResponseEntity<Object> save(@RequestBody @Valid AuthorDTO author) { //ResponseEntity is a generic type that represents the HTTP response
+        try {                                                                  //DTO is a data transfer object
             Author authorEntity = author.mapToAuthor();
             service.save(authorEntity);
 
@@ -87,7 +85,7 @@ public class AuthorController {
     @GetMapping
     public ResponseEntity<List<AuthorDTO>> search(@RequestParam(value = "name", required = false) String name,
                                                   @RequestParam(value = "nationality", required = false) String nationality){
-        List<Author> result = service.search(name, nationality);
+        List<Author> result = service.searchByExample(name, nationality);
         List<AuthorDTO> list = result.stream().map(author -> new AuthorDTO(author.getId(),
                 author.getName(), author.getNationality(),
                 author.getBirthdate())).collect(Collectors.toList());
@@ -97,7 +95,7 @@ public class AuthorController {
 
     @PutMapping("{id}")
     public ResponseEntity<Object> update(@PathVariable("id") String id,     //ResponseEntity is a generic type that represents the HTTP response
-                                             @RequestBody AuthorDTO dto)       //RequestBody to map the request body to the dto
+                                             @RequestBody @Valid AuthorDTO dto)       //RequestBody to map the request body to the dto
         {
             try{
         var idAuthor = UUID.fromString(id);

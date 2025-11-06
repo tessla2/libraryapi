@@ -7,6 +7,8 @@ import io.github.tessla2.libraryapi.model.Author;
 import io.github.tessla2.libraryapi.repository.AuthorRepository;
 import io.github.tessla2.libraryapi.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -57,6 +59,20 @@ public class AuthorService {
             return authorRepository.findByNationality(nationality);
     }
         return authorRepository.findAll();
+    }
+    public List<Author> searchByExample(String name, String nationality){
+        var author = new Author();
+        author.setName(name);
+        author.setNationality(nationality);
+
+        ExampleMatcher matcher = ExampleMatcher
+                .matching()
+                .withIgnoreNullValues()
+                .withIgnoreCase()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+        Example<Author> authorExample = Example.of(author, matcher);
+        return authorRepository.findAll(authorExample);
+
     }
 
 
