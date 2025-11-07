@@ -3,6 +3,8 @@ package io.github.tessla2.libraryapi.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,6 +14,7 @@ import java.util.UUID;
 @Table(name = "book", schema = "public")
 @Data
 @ToString(exclude = "author")
+@EntityListeners(AuditingEntityListener.class)
 public class Book {
 
     @Id
@@ -46,5 +49,7 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
-    private Author author;
+    private Author idAuthor;
+
+
 }
