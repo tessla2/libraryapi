@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "book", schema = "public")
+@Table(name = "book")
 @Data
 @ToString(exclude = "author")
 @EntityListeners(AuditingEntityListener.class)
@@ -47,9 +47,12 @@ public class Book {
     @Column(name = "user_id")
     private UUID userId;
 
-    @ManyToOne
+    @ManyToOne(
+//          cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
     @JoinColumn(name = "author_id", nullable = false)
-    private Author idAuthor;
+    private Author author;
 
 
 }

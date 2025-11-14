@@ -8,13 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
-import java.sql.SQLOutput;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
@@ -59,7 +55,7 @@ class BookRepositoryTest {
 
         Author author = new Author();
         author.setName("Miguel de Cervantes");
-        author.setBirthdate(LocalDate.of(1547, 9, 29));
+        author.setBirthDate(LocalDate.of(1547, 9, 29));
         author.setNationality("Spanish");
 
 

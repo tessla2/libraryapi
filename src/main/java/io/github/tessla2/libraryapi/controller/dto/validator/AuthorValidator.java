@@ -24,10 +24,10 @@ public class AuthorValidator {
     }
 
     private boolean isDuplicate(Author author){
-        Optional<Author> existingAuthor = repository.findByNameAndNationalityAndBirthdate(
+        Optional<Author> existingAuthor = repository.findByNameAndNationalityAndBirthDate(
                 author.getName(),
                 author.getNationality(),
-                author.getBirthdate()
+                author.getBirthDate()
         );
 
         if(author.getId() == null){

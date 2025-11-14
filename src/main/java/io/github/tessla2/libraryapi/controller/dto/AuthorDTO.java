@@ -1,7 +1,5 @@
 package io.github.tessla2.libraryapi.controller.dto;
 
-
-import io.github.tessla2.libraryapi.model.Author;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
@@ -22,16 +20,4 @@ public record AuthorDTO(
         @NotNull(message = "Required field")
         @Past(message = "Birth date cannot be in the future.")
         LocalDate birth_date) {
-
-
-    // Mapping method to convert AuthorDTO to Author entity
-    public Author mapToAuthor(){
-        Author author = new Author();
-        author.setId(this.id);
-        author.setName(this.name);
-        author.setNationality(this.nationality);
-        author.setBirthdate(this.birth_date);
-        return author;
-    }
-
 }

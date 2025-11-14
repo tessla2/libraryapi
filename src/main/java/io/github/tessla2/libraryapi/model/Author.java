@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -32,7 +31,7 @@ public class Author {
     private String name;
 
     @Column(name = "birth_date", nullable = false)
-    private LocalDate birthdate;
+    private LocalDate birthDate;
 
     @Column(name = "nationality", length = 50, nullable = false)
     private String nationality;

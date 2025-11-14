@@ -5,6 +5,7 @@ import io.github.tessla2.libraryapi.model.Book;
 import io.github.tessla2.libraryapi.model.BookGenre;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-public interface BookRepository extends JpaRepository<Book, UUID> {
+public interface BookRepository extends JpaRepository<Book, UUID>, JpaSpecificationExecutor<Book> {
 
     // select * from book where author_id = id
     List<Book> findByAuthor(Author author); //method to find books by author
@@ -45,8 +46,11 @@ public interface BookRepository extends JpaRepository<Book, UUID> {
     @Query("select b from Book b where b.genre = ?2 order by ?1 ")
     List<Book> findByGenrePositionalParameters(String nameProperty, BookGenre bookGenre);
 
-    @Modifying //this annotation is necessary to execute modifying queries
-    @Transactional //this annotation is necessary to execute modifying queries
+
+    // @Modifying indicates this query changes data (DELETE, UPDATE, etc.)
+    // @Transactional ensures this operation runs inside a transaction.
+    @Modifying
+    @Transactional
     @Query( "delete from Book where genre = ?1")
     void deleteBooksByGenre(BookGenre genre);
 
