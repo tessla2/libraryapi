@@ -9,16 +9,16 @@ import io.github.tessla2.libraryapi.model.BookGenre;
 import io.github.tessla2.libraryapi.service.BookService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 
 @RestController
 @RequestMapping("books")
+
 @RequiredArgsConstructor
 public class BookController implements GenericController{
 
@@ -56,20 +56,42 @@ public class BookController implements GenericController{
     }
 
     @GetMapping
-    public ResponseEntity<List<SearchBookDTO>> search(
+    public ResponseEntity<Page<SearchBookDTO>> search(
             @RequestParam(value = "isbn", required = false) String isbn,
             @RequestParam(value = "title", required = false) String title,
             @RequestParam(value = "author-name", required = false) String authorName,
             @RequestParam(value = "genre", required = false) BookGenre genre,
-            @RequestParam(value = "publication-year", required = false) Integer publicationYear
+            @RequestParam(value = "publication-year", required = false) Integer publicationYear,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "page-size", defaultValue = "10") Integer pageSize
     ){
-        var result = service.search(isbn, title, authorName, genre, publicationYear);
-        var list = result
-                .stream()
-                .map(mapper::toDTO)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(list);
+        Page<Book> pageResult = service.search(
+                isbn, title, authorName, genre, publicationYear, page, pageSize);
+
+        Page<SearchBookDTO> result = pageResult.map(mapper::toDTO);
+
+        return ResponseEntity.ok(result);
 
     }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Object> update(@PathVariable("id") String id,
+                                       @RequestBody @Valid BookRegistrationDTO dto) {
+        return service.getById(UUID.fromString(id))
+                .map(book ->{
+                    Book entityAux = mapper.toEntity(dto);
+                    book.setPublicationDate(entityAux.getPublicationDate());
+                    book.setIsbn(entityAux.getIsbn());
+                    book.setPrice(entityAux.getPrice());
+                    book.setTitle(entityAux.getTitle());
+                    book.setGenre(entityAux.getGenre());
+                    book.setAuthor(entityAux.getAuthor());
+                    service.update(book);
+
+                    return ResponseEntity.noContent().build();
+
+                }).orElseGet( () -> ResponseEntity.notFound().build());
+    }
+
 
 }

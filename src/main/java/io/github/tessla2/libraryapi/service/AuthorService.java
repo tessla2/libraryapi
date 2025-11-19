@@ -1,7 +1,7 @@
 package io.github.tessla2.libraryapi.service;
 
 
-import io.github.tessla2.libraryapi.controller.dto.validator.AuthorValidator;
+import io.github.tessla2.libraryapi.validator.AuthorValidator;
 import io.github.tessla2.libraryapi.exceptions.OperationNotAllowed;
 import io.github.tessla2.libraryapi.model.Author;
 import io.github.tessla2.libraryapi.repository.AuthorRepository;

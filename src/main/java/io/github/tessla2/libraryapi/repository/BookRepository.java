@@ -4,6 +4,8 @@ import io.github.tessla2.libraryapi.model.Author;
 import io.github.tessla2.libraryapi.model.Book;
 import io.github.tessla2.libraryapi.model.BookGenre;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -12,16 +14,19 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface BookRepository extends JpaRepository<Book, UUID>, JpaSpecificationExecutor<Book> {
 
+
+    Page<Book> findByAuthor(Author author, Pageable pegable);
     // select * from book where author_id = id
     List<Book> findByAuthor(Author author); //method to find books by author
 
     List<Book> findByTitle (String title); //method to find books by title
 
-    List<Book>  findByIsbn(String isbn);
+    Optional<Book> findByIsbn(String isbn);
 
     boolean existsByAuthor(Author author); //method to check if books exist by author
 

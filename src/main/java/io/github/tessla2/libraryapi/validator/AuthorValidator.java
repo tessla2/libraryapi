@@ -1,4 +1,4 @@
-package io.github.tessla2.libraryapi.controller.dto.validator;
+package io.github.tessla2.libraryapi.validator;
 
 
 import io.github.tessla2.libraryapi.exceptions.DuplicateRecordException;
