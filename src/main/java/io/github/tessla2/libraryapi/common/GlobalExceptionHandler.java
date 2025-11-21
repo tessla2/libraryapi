@@ -1,4 +1,4 @@
-package io.github.tessla2.libraryapi.controller.common;
+package io.github.tessla2.libraryapi.common;
 
 
 import io.github.tessla2.libraryapi.controller.dto.ErrorResponse;
@@ -21,6 +21,8 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+
+    // Handle validation errors
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public ErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
@@ -51,7 +53,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    public ErrorResponse handleInvalidaComponentException(InvalidComponentException e){
+    public ErrorResponse handleInvalidComponentException(InvalidComponentException e){
         return new ErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(),
                 "Error in component validation.",
                 List.of(new InvalidField(e.getField(), e.getMessage()))

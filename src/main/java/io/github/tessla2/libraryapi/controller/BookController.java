@@ -3,7 +3,7 @@ package io.github.tessla2.libraryapi.controller;
 
 import io.github.tessla2.libraryapi.controller.dto.BookRegistrationDTO;
 import io.github.tessla2.libraryapi.controller.dto.SearchBookDTO;
-import io.github.tessla2.libraryapi.controller.mappers.BookMapper;
+import io.github.tessla2.libraryapi.mappers.BookMapper;
 import io.github.tessla2.libraryapi.model.Book;
 import io.github.tessla2.libraryapi.model.BookGenre;
 import io.github.tessla2.libraryapi.service.BookService;

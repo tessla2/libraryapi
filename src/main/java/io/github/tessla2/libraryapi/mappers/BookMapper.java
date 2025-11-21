@@ -1,4 +1,4 @@
-package io.github.tessla2.libraryapi.controller.mappers;
+package io.github.tessla2.libraryapi.mappers;
 
 import io.github.tessla2.libraryapi.controller.dto.BookRegistrationDTO;
 import io.github.tessla2.libraryapi.controller.dto.SearchBookDTO;
@@ -14,6 +14,8 @@ public abstract class BookMapper {
 
     @Autowired
     AuthorRepository authorRepository;
+
+
 
     @Mapping(target = "author", expression = "java( authorRepository.findById(dto.idAuthor()).orElse(null) )")
     public abstract  Book toEntity(BookRegistrationDTO dto);

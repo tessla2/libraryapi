@@ -2,7 +2,7 @@ package io.github.tessla2.libraryapi.controller;
 
 
 import io.github.tessla2.libraryapi.controller.dto.AuthorDTO;
-import io.github.tessla2.libraryapi.controller.mappers.AuthorMapper;
+import io.github.tessla2.libraryapi.mappers.AuthorMapper;
 import io.github.tessla2.libraryapi.model.Author;
 import io.github.tessla2.libraryapi.service.AuthorService;
 import jakarta.validation.Valid;

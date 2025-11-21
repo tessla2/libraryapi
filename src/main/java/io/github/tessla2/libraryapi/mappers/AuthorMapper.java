@@ -1,4 +1,4 @@
-package io.github.tessla2.libraryapi.controller.mappers;
+package io.github.tessla2.libraryapi.mappers;
 
 
 import io.github.tessla2.libraryapi.controller.dto.AuthorDTO;

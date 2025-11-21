@@ -26,3 +26,10 @@ spring:
       #  hibernate:
         # Makes the SQL output formatted and readable in the console
     #  format_sql: true
+  hikari:
+    # HikariCP connection pool settings
+    maximum-pool-size: 10
+    minimum-idle: 5
+    idle-timeout: 30000
+    max-lifetime: 600000
+    connection-timeout: 30000
