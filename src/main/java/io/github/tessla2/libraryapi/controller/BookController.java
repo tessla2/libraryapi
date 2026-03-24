@@ -15,9 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-
 @RestController
-@RequestMapping("books")
+@RequestMapping("books") //endpoint path
 
 @RequiredArgsConstructor
 public class BookController implements GenericController{

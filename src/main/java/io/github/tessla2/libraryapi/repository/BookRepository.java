@@ -20,7 +20,7 @@ import java.util.UUID;
 public interface BookRepository extends JpaRepository<Book, UUID>, JpaSpecificationExecutor<Book> {
 
 
-    Page<Book> findByAuthor(Author author, Pageable pegable);
+    Page<Book> findByAuthor(Author author, Pageable pegeable);
     // select * from book where author_id = id
     List<Book> findByAuthor(Author author); //method to find books by author
 

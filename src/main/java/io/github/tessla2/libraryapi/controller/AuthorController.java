@@ -25,7 +25,6 @@ public class AuthorController implements GenericController {
     private final AuthorService service;
     private final AuthorMapper mapper;
 
-
     @PostMapping
     public ResponseEntity<Void> save(@RequestBody @Valid AuthorDTO dto) { //ResponseEntity is a generic type that represents the HTTP response         //DTO is a data transfer object
         Author author = mapper.toEntity(dto);
