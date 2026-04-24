@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Book Society</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        body {
+          background: linear-gradient(135deg, #1a1a1a, #2c2c2c);
+          height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-family: 'Segoe UI', sans-serif;
+        }
+
+        .login-card {
+          background: #111;
+          border-radius: 20px;
+          padding: 40px;
+          width: 100%;
+          max-width: 420px;
+          box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+          color: white;
+        }
+
+        .brand {
+          background: #8b1e2d;
+          padding: 15px;
+          border-radius: 12px;
+          text-align: center;
+          margin-bottom: 25px;
+          font-weight: bold;
+          font-size: 20px;
+        }
+
+        .form-control {
+          background-color: #1f1f1f;
+          border: none;
+          color: white;
+        }
+
+        .form-control:focus {
+          background-color: #1f1f1f;
+          color: white;
+          box-shadow: 0 0 0 0.2rem rgba(139,30,45,0.4);
+        }
+
+        .btn-login {
+          background: #8b1e2d;
+          border: none;
+          font-weight: bold;
+        }
+
+        .btn-login:hover {
+          background: #a32436;
+        }
+
+        .input-group-text {
+          background-color: #1f1f1f;
+          border: none;
+          color: #aaa;
+        }
+
+        .footer-text {
+          text-align: center;
+          margin-top: 20px;
+          font-size: 14px;
+          color: #aaa;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-card">
+    <div class="brand">
+        📚 Book Society Gestão
+    </div>
+
+    <form method="post" th:action="@{/login}">
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Digite seu username" required>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Senha</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                <input type="password" class="form-control" id="password" name="password"   placeholder="Digite sua senha" required>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between mb-3">
+            <div>
+                <input type="checkbox" id="remember">
+                <label for="remember">Lembrar-me</label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-login w-100 py-2">Entrar</button>
+    </form>
+
+    <div class="footer-text">
+        © 2026 Desenvolvido com ❤
+    </div>
+</div>
+
+</body>
+</html>
