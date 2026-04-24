@@ -73,6 +73,13 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<!-- Hypersistence Utils for PostgreSQL arrays -->
+		<dependency>
+			<groupId>io.hypersistence</groupId>
+			<artifactId>hypersistence-utils-hibernate-63</artifactId>
+			<version>3.9.0</version>
+		</dependency>
+
 		<!-- Test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
