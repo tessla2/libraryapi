@@ -4,10 +4,16 @@ package io.github.tessla2.libraryapi.controller;
 import io.github.tessla2.libraryapi.controller.dto.AuthorDTO;
 import io.github.tessla2.libraryapi.mappers.AuthorMapper;
 import io.github.tessla2.libraryapi.model.Author;
+import io.github.tessla2.libraryapi.model.User;
+import io.github.tessla2.libraryapi.security.SecurityService;
 import io.github.tessla2.libraryapi.service.AuthorService;
+import io.github.tessla2.libraryapi.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -23,10 +29,12 @@ import java.util.stream.Collectors;
 public class AuthorController implements GenericController {
 
     private final AuthorService service;
+    private final SecurityService securityService;
     private final AuthorMapper mapper;
 
     @PostMapping
-    public ResponseEntity<Void> save(@RequestBody @Valid AuthorDTO dto) { //ResponseEntity is a generic type that represents the HTTP response         //DTO is a data transfer object
+    @PreAuthorize("hasAnyRole('OPERATOR', 'MANAGER')") //ResponseEntity is a generic type that represents the HTTP response //DTO is a data transfer object
+    public ResponseEntity<Void> save(@RequestBody @Valid AuthorDTO dto) {//RequestBody to map the request body to the dto
         Author author = mapper.toEntity(dto);
         service.save(author);
         URI location = generateHeaderLocation(author.getId());
@@ -35,6 +43,7 @@ public class AuthorController implements GenericController {
     }
 
     @GetMapping("{id}")
+    @PreAuthorize("hasAnyRole('OPERATOR', 'MANAGER')")
     public ResponseEntity<AuthorDTO> getDetails(@PathVariable("id") String id) {
         var idAuthor = UUID.fromString(id);
 
@@ -48,6 +57,7 @@ public class AuthorController implements GenericController {
 
     //idempotent
     @DeleteMapping("{id}")
+    @PreAuthorize("hasAnyRole('MANAGER')")
     public ResponseEntity<Void> deleteAuthor(@PathVariable("id") String id) {
 
         var idAuthor = UUID.fromString(id);
@@ -61,6 +71,7 @@ public class AuthorController implements GenericController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('OPERATOR', 'MANAGER')")
     public ResponseEntity<List<AuthorDTO>> search(@RequestParam(value = "name", required = false) String name,
                                                   @RequestParam(value = "nationality", required = false) String nationality) {
         List<Author> result = service.searchByExample(name, nationality);

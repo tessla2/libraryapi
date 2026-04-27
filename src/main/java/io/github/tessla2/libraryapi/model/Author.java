@@ -30,7 +30,7 @@ public class Author {
     @Column(name = "name", length = 100, nullable = false)
     private String name;
 
-    @Column(name = "birth_date", nullable = false)
+    @Column(name = "birth_date")
     private LocalDate birthDate;
 
     @Column(name = "nationality", length = 50, nullable = false)
@@ -48,7 +48,8 @@ public class Author {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(name = "user_id")
-    private UUID idUsuario;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

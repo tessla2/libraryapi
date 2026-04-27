@@ -8,6 +8,7 @@ import io.github.tessla2.libraryapi.exceptions.InvalidComponentException;
 import io.github.tessla2.libraryapi.exceptions.OperationNotAllowed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -58,7 +59,12 @@ public class GlobalExceptionHandler {
                 "Error in component validation.",
                 List.of(new InvalidField(e.getField(), e.getMessage()))
                 );
+    }
 
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorResponse handleAccessDeniedException(AccessDeniedException e){
+        return new ErrorResponse(HttpStatus.FORBIDDEN.value(), "Access Denied: " + e.getMessage(), List.of());
     }
 
 

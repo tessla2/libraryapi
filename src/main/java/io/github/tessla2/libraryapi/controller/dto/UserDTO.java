@@ -9,6 +9,8 @@ import java.util.UUID;
 public record UserDTO(
         UUID id,
         @NotBlank(message = "Required field")
+        @Size(min = 3, max = 50, message = "Field exceeds the maximum allowed length")
+        String login,
         @Email(message = "Invalid email format")
         @Size(max = 100, message = "Field exceeds the maximum allowed length")
         String email,

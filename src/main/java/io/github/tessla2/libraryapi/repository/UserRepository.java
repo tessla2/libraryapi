@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface UserRepository extends JpaRepository<User, UUID> {
+    Optional<User> findByLogin(String login);
     Optional<User> findByEmail(String email);
     List<User> findByEmailContaining(String email);
     Page<User> findByEmailContaining(String email, Pageable pageable);

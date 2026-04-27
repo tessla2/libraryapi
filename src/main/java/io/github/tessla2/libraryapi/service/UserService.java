@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -22,9 +24,12 @@ public class UserService {
 
     @Transactional
     public void save(User user){
-        if(user.getEmail() == null || user.getEmail().isBlank()) {
-            throw new IllegalArgumentException("Email is required");
+        if(user.getLogin() == null || user.getLogin().isBlank()) {
+            throw new IllegalArgumentException("Login is required");
         }
+//        if(user.getEmail() == null || user.getEmail().isBlank()) {
+//            throw new IllegalArgumentException("Email is required");
+//        }
         if(user.getPassword() == null || user.getPassword().isBlank()) {
             throw new IllegalArgumentException("Password is required");
         }
@@ -51,6 +56,11 @@ public class UserService {
             return repository.findAll(pageable);
         }
         return repository.findByEmailContaining(email, pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<User> getByLogin(String login) {
+        return repository.findByLogin(login);
     }
 
 }

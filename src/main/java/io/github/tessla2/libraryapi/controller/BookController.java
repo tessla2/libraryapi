@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -26,15 +27,17 @@ public class BookController implements GenericController{
 
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('OPERATOR', 'MANAGER')")
     public ResponseEntity<Void> save(@RequestBody @Valid BookRegistrationDTO dto) {
             Book book = mapper.toEntity(dto);
-            //send entity to service to validate and save on database
+            //send entity to service to validate and save on a database
             service.save(book);
             //return code with header location
             var url = generateHeaderLocation(book.getId());
             return ResponseEntity.created(url).build();
     }
 
+    @PreAuthorize("hasAnyRole('OPERATOR', 'MANAGER')")
     @GetMapping("{id}")
     public ResponseEntity<SearchBookDTO> getBooks(@PathVariable("id") String id) {
         return service.getById(UUID.fromString(id))
@@ -45,6 +48,7 @@ public class BookController implements GenericController{
 
     }
 
+    @PreAuthorize("hasAnyRole('MANAGER')")
     @DeleteMapping("{id}")
     public ResponseEntity<Object> delete(@PathVariable("id") String id){
         return service.getById(UUID.fromString(id))
@@ -54,6 +58,7 @@ public class BookController implements GenericController{
                 }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasAnyRole('OPERATOR', 'MANAGER')")
     @GetMapping
     public ResponseEntity<Page<SearchBookDTO>> search(
             @RequestParam(value = "isbn", required = false) String isbn,
@@ -73,6 +78,7 @@ public class BookController implements GenericController{
 
     }
 
+    @PreAuthorize("hasAnyRole('OPERATOR', 'MANAGER')")
     @PutMapping("{id}")
     public ResponseEntity<Object> update(@PathVariable("id") String id,
                                        @RequestBody @Valid BookRegistrationDTO dto) {

@@ -3,7 +3,9 @@ package io.github.tessla2.libraryapi.service;
 
 import io.github.tessla2.libraryapi.model.Book;
 import io.github.tessla2.libraryapi.model.BookGenre;
+import io.github.tessla2.libraryapi.model.User;
 import io.github.tessla2.libraryapi.repository.BookRepository;
+import io.github.tessla2.libraryapi.security.SecurityService;
 import io.github.tessla2.libraryapi.validator.BookValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,11 +24,14 @@ import static io.github.tessla2.libraryapi.repository.specs.BookSpecs.*;
 public class BookService {
 
     private final BookRepository repository;
+    private final SecurityService securityService;
 
     private final BookValidator validator;
 
     public Book save(Book book) {
         validator.validate(book);
+        User user = securityService.getLoggedUser();
+        book.setUser(user);
         return repository.save(book);
     }
 

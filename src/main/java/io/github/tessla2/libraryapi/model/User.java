@@ -22,14 +22,16 @@ public class User {
     private UUID id;
 
     @Column(unique = true)
+    private String login;
+
+    @Column(unique = true)
     private String email;
 
     @Column
     private String password;
 
+    // varchar
     @Type(ListArrayType.class)
     @Column(name = "roles", columnDefinition = "varchar[]")
     private List<String> roles;
-
-
 }

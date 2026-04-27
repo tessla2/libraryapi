@@ -1,6 +1,8 @@
 package io.github.tessla2.libraryapi.service;
 
 
+import io.github.tessla2.libraryapi.model.User;
+import io.github.tessla2.libraryapi.security.SecurityService;
 import io.github.tessla2.libraryapi.validator.AuthorValidator;
 import io.github.tessla2.libraryapi.exceptions.OperationNotAllowed;
 import io.github.tessla2.libraryapi.model.Author;
@@ -22,9 +24,12 @@ public class AuthorService {
     private final AuthorRepository authorRepository;
     private final AuthorValidator validator;
     private final BookRepository bookRepository;
+    private final SecurityService securityService;
 
     public Author save(Author author){
         validator.validate(author);
+        User user = securityService.getLoggedUser();
+        author.setUser(user);
         return authorRepository.save(author);
     }
 
