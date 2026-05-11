@@ -8,7 +8,6 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.UUID;
 
-//DTO is to separate the view layer from the model layer, is the persistence layer
 public record AuthorDTO(
         UUID id,
         @NotBlank(message = "Required field")
@@ -19,5 +18,5 @@ public record AuthorDTO(
         String nationality,
         @NotNull(message = "Required field")
         @Past(message = "Birth date cannot be in the future.")
-        LocalDate birth_date) {
+        LocalDate birthDate) {
 }

@@ -9,6 +9,7 @@ import io.github.tessla2.libraryapi.model.Author;
 import io.github.tessla2.libraryapi.repository.AuthorRepository;
 import io.github.tessla2.libraryapi.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor // Using Lombok to generate constructor with required arguments
+@RequiredArgsConstructor
+@Slf4j
 public class AuthorService {
 
     private final AuthorRepository authorRepository;
@@ -93,4 +95,22 @@ public class AuthorService {
         return bookRepository.existsByAuthor(author);
     }
 
+    // Busca autor por nome exato (primeiro resultado)
+    public Optional<Author> findByNameExact(String name) {
+        var authors = authorRepository.findByName(name);
+        return authors.stream().findFirst();
+    }
+
+    // Cria um autor minimo (apenas nome) para importacao automatica
+    @Transactional
+    public Author createMinimal(String name) {
+        var author = new Author();
+        author.setName(name);
+        author.setNationality("Unknown");
+        User user = securityService.getLoggedUser();
+        author.setUser(user);
+        var saved = authorRepository.save(author);
+        log.info("Author auto-created from Google Books import: name='{}'", name);
+        return saved;
+    }
 }

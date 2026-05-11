@@ -7,12 +7,14 @@ import io.github.tessla2.libraryapi.repository.AuthorRepository;
 import io.github.tessla2.libraryapi.repository.BookRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
 
+@Service
 public class TransactionService {
 
     @Autowired

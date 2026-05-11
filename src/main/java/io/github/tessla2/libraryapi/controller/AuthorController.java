@@ -4,16 +4,11 @@ package io.github.tessla2.libraryapi.controller;
 import io.github.tessla2.libraryapi.controller.dto.AuthorDTO;
 import io.github.tessla2.libraryapi.mappers.AuthorMapper;
 import io.github.tessla2.libraryapi.model.Author;
-import io.github.tessla2.libraryapi.model.User;
-import io.github.tessla2.libraryapi.security.SecurityService;
 import io.github.tessla2.libraryapi.service.AuthorService;
-import io.github.tessla2.libraryapi.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -29,7 +24,6 @@ import java.util.stream.Collectors;
 public class AuthorController implements GenericController {
 
     private final AuthorService service;
-    private final SecurityService securityService;
     private final AuthorMapper mapper;
 
     @PostMapping
@@ -84,6 +78,7 @@ public class AuthorController implements GenericController {
 
 
     @PutMapping("{id}")
+    @PreAuthorize("hasAnyRole('OPERATOR', 'MANAGER')")
     public ResponseEntity<Void> update(@PathVariable("id") String id,     //ResponseEntity is a generic type that represents the HTTP response
                                          @RequestBody @Valid AuthorDTO dto) //RequestBody to map the request body to the dto
     {
@@ -96,7 +91,7 @@ public class AuthorController implements GenericController {
         var author = authorOptional.get();
         author.setName(dto.name());
         author.setNationality(dto.nationality());
-        author.setBirthDate(dto.birth_date());
+        author.setBirthDate(dto.birthDate());
 
         service.update(author);
 

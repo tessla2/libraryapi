@@ -4,11 +4,13 @@ package io.github.tessla2.libraryapi.common;
 import io.github.tessla2.libraryapi.controller.dto.ErrorResponse;
 import io.github.tessla2.libraryapi.controller.dto.InvalidField;
 import io.github.tessla2.libraryapi.exceptions.DuplicateRecordException;
+import io.github.tessla2.libraryapi.exceptions.GoogleBooksApiException;
 import io.github.tessla2.libraryapi.exceptions.InvalidComponentException;
 import io.github.tessla2.libraryapi.exceptions.OperationNotAllowed;
 import io.github.tessla2.libraryapi.exceptions.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -75,6 +77,19 @@ public class GlobalExceptionHandler {
     }
 
 
+
+    @ExceptionHandler(GoogleBooksApiException.class)
+    public ResponseEntity<ErrorResponse> handleGoogleBooksApiException(GoogleBooksApiException e) {
+        log.error("Google Books API error ({}): {}", e.getStatusCode(), e.getResponseBody());
+        var status = HttpStatus.resolve(e.getStatusCode());
+        if (status == null) status = HttpStatus.BAD_GATEWAY;
+        var body = new ErrorResponse(
+                status.value(),
+                e.getMessage(),
+                List.of()
+        );
+        return new ResponseEntity<>(body, status);
+    }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

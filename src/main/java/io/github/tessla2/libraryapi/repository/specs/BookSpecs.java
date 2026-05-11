@@ -24,7 +24,7 @@ public class BookSpecs {
     // and to_char(publication_date, 'YYYY') = :publicationYear
     public static  Specification<Book> publicationYearEqual(Integer publicationYear) {
         return (root, query, cb) ->
-                cb.equal( cb.function("to_char", String.class, root.get("publication_date")) ,publicationYear.toString());
+                cb.equal( cb.function("to_char", String.class, root.get("publication_date"), cb.literal("YYYY")) ,publicationYear.toString());
     }
 
     public static  Specification<Book> nameAuthorLike(String name) {

@@ -14,7 +14,7 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          font-family: 'Segoe UI', sans-serif;
+          font-family: 'Segoe UI,' sans-serif;
         }
 
         .login-card {
@@ -71,6 +71,52 @@
           font-size: 14px;
           color: #aaa;
         }
+
+        .divider {
+          display: flex;
+          align-items: center;
+          margin: 20px 0;
+          color: #555;
+        }
+
+        .divider::before,
+        .divider::after {
+          content: "";
+          flex: 1;
+          border-bottom: 1px solid #333;
+        }
+
+        .divider span {
+          padding: 0 10px;
+          font-size: 14px;
+        }
+
+        .btn-google {
+          background: #fff;
+          color: #333;
+          border: none;
+          font-weight: bold;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+        }
+
+        .btn-google:hover {
+          background: #eee;
+          color: #111;
+        }
+
+        .alert-error {
+          background: rgba(139,30,45,0.2);
+          border: 1px solid #8b1e2d;
+          color: #ff6b6b;
+          padding: 10px;
+          border-radius: 8px;
+          margin-bottom: 15px;
+          font-size: 14px;
+          text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -78,6 +124,9 @@
 <div class="login-card">
     <div class="brand">
         📚 Book Society Gestão
+    </div>
+
+    <div class="alert-error" th:if="${param.error}" th:text="'Login inválido. Verifique suas credenciais.'">
     </div>
 
     <form method="post" th:action="@{/login}">
@@ -106,6 +155,14 @@
 
         <button type="submit" class="btn btn-login w-100 py-2">Entrar</button>
     </form>
+
+    <div class="divider">
+        <span>ou</span>
+    </div>
+
+    <a href="/oauth2/authorization/google" class="btn btn-google w-100 py-2">
+        <i class="fab fa-google"></i> Entrar com Google
+    </a>
 
     <div class="footer-text">
         © 2026 Desenvolvido com ❤
