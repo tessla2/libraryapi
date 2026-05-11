@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +27,8 @@ public class AuthorService {
     private final BookRepository bookRepository;
     private final SecurityService securityService;
 
+
+    @Transactional
     public Author save(Author author){
         validator.validate(author);
         User user = securityService.getLoggedUser();
@@ -33,6 +36,7 @@ public class AuthorService {
         return authorRepository.save(author);
     }
 
+    @Transactional
     public Author update(Author author){
         if(author.getId() == null){
             throw new IllegalArgumentException("Author ID cannot be null for update.");
@@ -41,10 +45,12 @@ public class AuthorService {
         return authorRepository.save(author);
     }
 
+    @Transactional(readOnly = true)
     public Optional<Author> getFromId(UUID id){
         return authorRepository.findById(id);
     }
 
+    @Transactional
     public void deleteAuthor(Author author){
         if(hasBooks(author)){
             throw new OperationNotAllowed("Author with associated books cannot be deleted.");
@@ -52,6 +58,7 @@ public class AuthorService {
         authorRepository.delete(author);
     }
 
+    @Transactional(readOnly = true)
     public List<Author> search (String name, String nationality){
         if(name != null && nationality != null){
             return authorRepository.findByNameAndNationality(name, nationality);
@@ -65,6 +72,8 @@ public class AuthorService {
     }
         return authorRepository.findAll();
     }
+
+    @Transactional(readOnly = true)
     public List<Author> searchByExample(String name, String nationality){
         var author = new Author();
         author.setName(name);

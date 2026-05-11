@@ -1,6 +1,7 @@
 package io.github.tessla2.libraryapi.validator;
 
 
+import io.github.tessla2.libraryapi.config.MessageService;
 import io.github.tessla2.libraryapi.exceptions.DuplicateRecordException;
 import io.github.tessla2.libraryapi.model.Author;
 import io.github.tessla2.libraryapi.repository.AuthorRepository;
@@ -12,14 +13,17 @@ import java.util.Optional;
 public class AuthorValidator {
 
     private AuthorRepository repository;
+    private MessageService messageService;
 
-    public AuthorValidator(AuthorRepository repository) {
+    public AuthorValidator(AuthorRepository repository, MessageService messageService) {
         this.repository = repository;
+        this.messageService = messageService;
     }
 
     public void validate(Author author){
         if(isDuplicate(author)){
-            throw new DuplicateRecordException("Author with name '" + author.getName() + "' already exists.");
+            throw new DuplicateRecordException(messageService.getMessage("validation.author.duplicate",
+                    author.getName()));
         }
     }
 

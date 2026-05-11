@@ -6,6 +6,7 @@ import io.github.tessla2.libraryapi.controller.dto.InvalidField;
 import io.github.tessla2.libraryapi.exceptions.DuplicateRecordException;
 import io.github.tessla2.libraryapi.exceptions.InvalidComponentException;
 import io.github.tessla2.libraryapi.exceptions.OperationNotAllowed;
+import io.github.tessla2.libraryapi.exceptions.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -49,6 +50,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(OperationNotAllowed.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleOperationNotAllowed(OperationNotAllowed e) {
+        return ErrorResponse.standardError(e.getMessage());
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleResourceNotFoundException(ResourceNotFoundException e) {
         return ErrorResponse.standardError(e.getMessage());
     }
 

@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -28,6 +29,8 @@ public class BookService {
 
     private final BookValidator validator;
 
+
+    @Transactional
     public Book save(Book book) {
         validator.validate(book);
         User user = securityService.getLoggedUser();
@@ -35,14 +38,17 @@ public class BookService {
         return repository.save(book);
     }
 
+    @Transactional(readOnly = true)
     public Optional<Book> getById(UUID id) {
         return repository.findById(id);
     }
 
+    @Transactional
     public void delete(Book book){
         repository.delete(book);
     }
 
+    @Transactional(readOnly = true)
     public Page<Book> search(
             String isbn,
             String title,
@@ -83,15 +89,13 @@ public class BookService {
         return repository.findAll(specs, pageRequest);
     }
 
+@Transactional
     public void update(Book book) {
         if(book.getId() == null){
             throw new IllegalArgumentException("Book cannot be null for update.");
-
         }
         validator.validate(book);
         repository.save(book);
     }
-
-
 
 }

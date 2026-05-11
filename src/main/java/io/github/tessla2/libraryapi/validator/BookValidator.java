@@ -1,6 +1,7 @@
 package io.github.tessla2.libraryapi.validator;
 
 
+import io.github.tessla2.libraryapi.config.MessageService;
 import io.github.tessla2.libraryapi.exceptions.DuplicateRecordException;
 import io.github.tessla2.libraryapi.exceptions.InvalidComponentException;
 import io.github.tessla2.libraryapi.model.Book;
@@ -17,14 +18,15 @@ public class BookValidator {
     private static final int PUBLICATION_YEAR_THRESHOLD = 2020;
 
     private final BookRepository repository;
+    private final MessageService messageService;
 
     public void validate(Book book) {
         if (existsByIsbn(book)) {
-            throw new DuplicateRecordException("Book with ISBN already exists.");
+            throw new DuplicateRecordException(messageService.getMessage("validation.book.isbn.duplicate"));
         }
 
         if(isRequiredPriceNull(book)){
-            throw new InvalidComponentException("price", "Price required for books with publication date above 2020." );
+            throw new InvalidComponentException("price", messageService.getMessage("validation.book.price.required") );
         }
     }
 

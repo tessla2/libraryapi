@@ -22,10 +22,15 @@ public class CustomUserDetailsService implements UserDetailsService {
                         new UsernameNotFoundException(
                                 "User not found with login: " + login));
 
+        String password = user.getPassword() != null ? user.getPassword() : "";
+        String[] roles = user.getRoles() != null
+                ? user.getRoles().toArray(new String[0])
+                : new String[]{"USER"};
+
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getLogin())
-                .password(user.getPassword())
-                .roles(user.getRoles().toArray(new String[0]))
+                .password(password)
+                .roles(roles)
                 .build();
     }
 }
